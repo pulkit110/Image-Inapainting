@@ -214,9 +214,6 @@ public class ImageInpaint {
 			}
 		}
 
-		// System.out.println("Col = " + continuousCol);
-		// System.out.println("Col = " + continuousRow);
-
 		Boolean flag = true; // Flag to represent the completion of the inpainting process
 
 		double[][] temp = new double[ih][iw];

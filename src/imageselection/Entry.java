@@ -35,17 +35,25 @@ public class Entry extends JPanel {
 	protected Graphics entryGraphics; // graphics object to the entry image
 	protected int lastX = -1; // X co-ordinate of last pressed co-ordinate
 	protected int lastY = -1; // Y co-ordinate of last pressed co-ordinate
-	protected int polySides = 0; // number of sides of the polygon to be inpainted
-	private Vector PolygonCoordinatesX; // vector to store X co-ordinate of all vertices of a polygon
-	private Vector PolygonCoordinatesY; // vector to store Y co-ordinate of all vertices of a polygon
+	protected int polySides = 0; // number of sides of the polygon to be
+									// inpainted
+	private Vector PolygonCoordinatesX; // vector to store X co-ordinate of all
+										// vertices of a polygon
+	private Vector PolygonCoordinatesY; // vector to store Y co-ordinate of all
+										// vertices of a polygon
 	private Image img; // instance of Image class
 	public Stack SavedImages; // stack used to implement undo option
 	public Stack RedoImages; // stack used to implement redo option
-	private int firstX = -1; // variable to store first X co-ordinate of a polygon
-	private int firstY = -1; // variable to store first Y co-ordinate of a polygon
-	private int currX = -1; // variable to store current X co-ordinate of a polygon
-	private int currY = -1; // variable to store current Y co-ordinate of a polygon
-	public Boolean isDisabled = false; // flag to determine status of the inpainting module
+	private int firstX = -1; // variable to store first X co-ordinate of a
+								// polygon
+	private int firstY = -1; // variable to store first Y co-ordinate of a
+								// polygon
+	private int currX = -1; // variable to store current X co-ordinate of a
+							// polygon
+	private int currY = -1; // variable to store current Y co-ordinate of a
+							// polygon
+	public Boolean isDisabled = false; // flag to determine status of the
+										// inpainting module
 	public int maxX = -1; // stores maximum of all X co-ordinates of all polygon
 	public int maxY = -1; // stores maximum of all Y co-ordinates of all polygon
 	public int minX = -1; // stores minimum of all X co-ordinates of all polygon
@@ -61,7 +69,8 @@ public class Entry extends JPanel {
 	 */
 	Entry(Image img) {
 		entryImage = img;
-		enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.COMPONENT_EVENT_MASK);
+		enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK
+				| AWTEvent.MOUSE_EVENT_MASK | AWTEvent.COMPONENT_EVENT_MASK);
 		pressed = false;
 		SavedImages = new Stack();
 		RedoImages = new Stack();
@@ -94,7 +103,8 @@ public class Entry extends JPanel {
 	protected void initImage() {
 		img = entryImage;
 		entryGraphics = entryImage.getGraphics();
-		Image tmg = createImage(entryImage.getWidth(this), entryImage.getHeight(this));
+		Image tmg = createImage(entryImage.getWidth(this),
+				entryImage.getHeight(this));
 		Graphics tg = tmg.getGraphics();
 		tg.drawImage(entryImage, 0, 0, null);
 		SavedImages.push(tmg);
@@ -126,17 +136,21 @@ public class Entry extends JPanel {
 		}
 
 		/**
-		 * Draw black rectangle on every other co-ordinate of a polygon except the first co-ordinate
+		 * Draw black rectangle on every other co-ordinate of a polygon except
+		 * the first co-ordinate
 		 */
 		g.setColor(Color.black);
 		for (int i = 1; i < PolygonCoordinatesX.size(); ++i) {
-			g.drawRect((Integer) PolygonCoordinatesX.get(i) - 5, (Integer) PolygonCoordinatesY.get(i) - 5, 10, 10);
-			g.drawRect((Integer) PolygonCoordinatesX.get(i) - 4, (Integer) PolygonCoordinatesY.get(i) - 4, 8, 8);
+			g.drawRect((Integer) PolygonCoordinatesX.get(i) - 5,
+					(Integer) PolygonCoordinatesY.get(i) - 5, 10, 10);
+			g.drawRect((Integer) PolygonCoordinatesX.get(i) - 4,
+					(Integer) PolygonCoordinatesY.get(i) - 4, 8, 8);
 		}
 		g.setColor(Color.green);
 
 		if (lastX != -1) {
-			g.drawLine(lastX, lastY, currX, currY); // draw line between successive co-ordinates
+			g.drawLine(lastX, lastY, currX, currY); // draw line between
+													// successive co-ordinates
 		}
 	}
 
@@ -165,7 +179,9 @@ public class Entry extends JPanel {
 				minY = lastY;
 				PolygonCoordinatesX.add(lastX);
 				PolygonCoordinatesY.add(lastY);
-				if (Math.abs(lastX - (Integer) PolygonCoordinatesX.get(0)) < 10 && Math.abs(lastY - (Integer) PolygonCoordinatesY.get(0)) < 10) {
+				if (Math.abs(lastX - (Integer) PolygonCoordinatesX.get(0)) < 10
+						&& Math.abs(lastY
+								- (Integer) PolygonCoordinatesY.get(0)) < 10) {
 					int[] PolyX = new int[PolygonCoordinatesX.size()];
 					int[] PolyY = new int[PolygonCoordinatesY.size()];
 					for (int i = 0; i < PolygonCoordinatesX.size(); ++i) {
@@ -184,7 +200,7 @@ public class Entry extends JPanel {
 						if (maxY < PolyY[i]) {
 							maxY = PolyY[i];
 						}
-						System.out.println(PolygonCoordinatesX.get(i) + ", " + PolygonCoordinatesY.get(i));
+						
 					}
 					polySides = PolygonCoordinatesX.size();
 					entryGraphics.fillPolygon(PolyX, PolyY, polySides);
@@ -194,7 +210,8 @@ public class Entry extends JPanel {
 					lastX = lastY = -1;
 					firstX = firstY = -1;
 					pressed = false;
-					Image tmg = createImage(entryImage.getWidth(this), entryImage.getHeight(this));
+					Image tmg = createImage(entryImage.getWidth(this),
+							entryImage.getHeight(this));
 					Graphics tg = tmg.getGraphics();
 					tg.drawImage(entryImage, 0, 0, null);
 					// UndoImages.add(tmg);
